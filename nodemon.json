@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": ".ts,.js,.ejs,.json,.tsx",
+    "ignore": [],
+    "exec": "TYPE=dev node  --env-file=.env --loader ts-node/esm src/index.ts"
+}
