@@ -8,6 +8,9 @@ const RootComponent = (props:{title:string},children:Children) => {
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+            {/* dev-code-start */}
+            <script src="http://localhost:3000/dev-script"></script>
+            {/* dev-code-end */}
             <script src="https://cdn.tailwindcss.com"></script>
             <title>{props.title}</title>
         </head>
