@@ -11,6 +11,7 @@ const RootComponent = (props:{title:string},children:Children) => {
             {/* dev-code-start */}
             <script src="http://localhost:3000/dev-script"></script>
             {/* dev-code-end */}
+            <script src="http://localhost:3000/js/extra.js"></script>
             <script src="https://cdn.tailwindcss.com"></script>
             <title>{props.title}</title>
         </head>

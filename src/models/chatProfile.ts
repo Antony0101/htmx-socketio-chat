@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import { ExtractDocument, ExtractEntity } from "../lib/tsHelpers.js";
 
 const ChatProfileSchema = new mongoose.Schema({
+    username:{
+        type: String,
+        required: true,
+        unique: true,
+    },
     name: {
         type: String,
         required: true,
@@ -17,14 +22,9 @@ const ChatProfileSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    createdAt: {
-        type: Date,
-        required: true,
-    },
-    updatedAt: {
-        type: Date,
-        required: true,
-    },
+},{
+    timestamps: true,
+    
 });
 
 const ChatProfileModel = mongoose.model("chatprofiles",ChatProfileSchema);

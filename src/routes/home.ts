@@ -1,8 +1,8 @@
 import express from 'express';
-import HomePage from '../controllers/home/home.js';
+import HomePageController from '../controllers/home/home.js';
 
 const homeRouter = express.Router();
 
-homeRouter.get('/', HomePage);
+homeRouter.get('/', HomePageController);
 
 export default homeRouter;

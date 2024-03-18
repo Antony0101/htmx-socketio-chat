@@ -1,7 +1,9 @@
-import express from 'express';
+import express, {urlencoded} from 'express';
 import mongoose from 'mongoose';
 import indexRoot from './routes/index.js';
 import http from 'http';
+import { Socket } from 'socket.io';
+import morgan from 'morgan';
 
 // dev-code-start
 import {WebSocketServer} from 'ws';
@@ -9,6 +11,8 @@ import {WebSocketServer} from 'ws';
 
 const app = express();
 const server = http.createServer(app);
+app.use(urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
 async function start() {
     mongoose.connection.on('connected', () => {
@@ -21,10 +25,13 @@ async function start() {
         console.log('Disconnected from MongoDB');
     });
     mongoose.connect(process.env.MONGO_URI || '').then(() => {}).catch((err) => console.error('Error connecting to MongoDB', err));
+    app.use(express.static('static'));
     app.use("/",indexRoot);
+    
     server.listen(3000, () => {
         console.log('Server is running on port 3000');
     });
+
     // dev-code-start
     const wsServer = new WebSocketServer({ server, path: '/dev-reload' });
     wsServer.on('connection', (socket) => {
