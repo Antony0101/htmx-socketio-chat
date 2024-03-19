@@ -16,5 +16,5 @@ This is a simple chat application that uses [htmx](https://htmx.org/) and [socke
 
 - [x] Setup a basic server
 - [x] reload server on file changes
-- [ ] reload client on file changes
+- [x] reload client on file changes
 
