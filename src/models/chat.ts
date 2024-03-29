@@ -33,12 +33,8 @@ const ChatSchema = new mongoose.Schema({
     name: {
         type: String,
     },
-    createdAt: {
-        type: Date,
-    },
-    updatedAt: {
-        type: Date,
-    },
+},{
+    timestamps: true,
 });
 
 export type ChatDocument = ExtractDocument<typeof ChatModel>;

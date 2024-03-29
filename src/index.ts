@@ -4,6 +4,7 @@ import indexRoot from './routes/index.js';
 import http from 'http';
 import { Socket } from 'socket.io';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 // dev-code-start
 import {WebSocketServer} from 'ws';
@@ -12,6 +13,7 @@ import {WebSocketServer} from 'ws';
 const app = express();
 const server = http.createServer(app);
 app.use(urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 async function start() {
@@ -27,9 +29,9 @@ async function start() {
     mongoose.connect(process.env.MONGO_URI || '').then(() => {}).catch((err) => console.error('Error connecting to MongoDB', err));
     app.use(express.static('static'));
     app.use("/",indexRoot);
-    
-    server.listen(3000, () => {
-        console.log('Server is running on port 3000');
+    const port  = process.env.PORT || 3000;
+    server.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
     });
 
     // dev-code-start

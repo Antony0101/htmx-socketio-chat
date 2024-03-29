@@ -22,6 +22,10 @@ const ChatProfileSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    tokens: [{
+        tid: String,
+        expiry: Date,
+    }],
 },{
     timestamps: true,
     

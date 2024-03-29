@@ -6,6 +6,9 @@ import fs from 'fs';
 import crypto from 'crypto';
 import {hashPassword} from "../../lib/bcrypt.js"
 import expressWrapper from "../../lib/errorWrapper.js";
+import { setTokenInDb } from "./auth.helper.js";
+import { createJwt } from "../../lib/jwt.js";
+import ChatModel from "../../models/chat.js";
 
 const signupApiController = expressWrapper(async (req: Request, res: Response) => {
     const { username, password, confirmPassword } = req.body;
@@ -17,10 +20,34 @@ const signupApiController = expressWrapper(async (req: Request, res: Response) =
     if(password !== confirmPassword) {
         return res.status(400).send(<SignupComponent values={{username,password}}  errors={{confirmPassword:"Password does not match"}}></SignupComponent>);
     }
+    const allUSers = await ChatProfileModel.find();
     const filelist = fs.readdirSync('static/profiles');
     const image = "/profiles/" + filelist[crypto.randomInt(0,filelist.length)]
     const hashedPassword = await hashPassword(password);
-    await ChatProfileModel.create({ username, password:hashedPassword, profilePicture: image, name: username, lastSeen: new Date() });
+    const newProfile = await ChatProfileModel.create({ username, password:hashedPassword, profilePicture: image, name: username, lastSeen: new Date() });
+    const newChats = allUSers.map((user) => {
+        return {
+            type: "private",
+            users: [
+                {
+                    chatProfileId: newProfile._id,
+                    unread: 0,
+                },
+                {
+                    chatProfileId: user._id,
+                    unread: 0,
+                },
+            ],
+        }
+    });
+    await ChatModel.create(newChats);
+    const token = await setTokenInDb(newProfile, new Date(Date.now() + 1000*60*60*24*3));
+    const payload = {
+        uid: newProfile._id,
+        tid: token,
+    }
+    const jwt = createJwt(payload,"3d");
+    res.cookie("auth", jwt, { httpOnly: true });
     res.redirect("/chat");
 });
 
