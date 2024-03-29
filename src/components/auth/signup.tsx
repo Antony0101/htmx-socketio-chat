@@ -31,7 +31,7 @@ const SignupComponent = (props:Props) => {
                     </form>
                     <div>
                         <button hx-get="/auth/components/signin" hx-trigger="click" hx-target="#auth-inner-box" hx-swap="outerHTML">
-                            If you already have an account, sign in here
+                            <span>If you already have an account,</span> <span class='text-blue-600'>sign in here</span>
                         </button>
                     </div>
                 </div>
