@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "TYPE=start node --env-file=.env dist/index.js",
+    "start": "NODE_ENV=production node --env-file=.env dist/index.js",
     "build": "tsc",
     "build-css": "tailwindcss build -i src/static/styles.css -o dist/static/styles.css",
     "dev": "nodemon --config nodemon.json",
