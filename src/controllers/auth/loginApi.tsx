@@ -25,7 +25,8 @@ const loginApiController =  expressWrapper(async (req: Request, res: Response) =
     }
     const jwt = createJwt(payload,"3d");
     res.cookie("auth", jwt, { httpOnly: true });
-    res.redirect("/chat");
+    res.header("HX-Redirect","/chat");
+    res.status(204).send();
 });
 
 export default loginApiController;

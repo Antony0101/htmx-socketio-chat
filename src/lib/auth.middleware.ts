@@ -14,11 +14,13 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     if(!payload) {
         return res.redirect("/auth");
     }
-    req.body.isAuthenticated = true;
+    req.isAuthenticated = true;
     const chatProfile = await ChatProfileModel.findById(payload.uid);
     if(!chatProfile) {
         return res.redirect("/auth");
     }
-    req.body.user = chatProfile.toObject();
+    req.user = chatProfile.toObject();
     next();
 }
+
+export default authMiddleware;

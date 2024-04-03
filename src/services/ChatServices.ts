@@ -3,55 +3,55 @@ import ChatProfileModel, { ChatProfileDocument } from "../models/chatProfile.js"
 import ChatModel, { ChatDocument } from "../models/chat.js";
 import MessageModel, { MessageDocument, MessageEntity } from "../models/message.js";
 
-const createChatProfile =
-async (
-    userId: Types.ObjectId,
-    name: string,
-    photo: string,
-): Promise<ChatProfileDocument> => {
-    const profile = new ChatProfileModel({
-        userId,
-        name,
-        profilePicture: photo,
-        lastSeen: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    });
-    await profile.save();
-    return profile;
-}
+// const createChatProfile =
+// async (
+//     userId: Types.ObjectId,
+//     name: string,
+//     photo: string,
+// ): Promise<ChatProfileDocument> => {
+//     const profile = new ChatProfileModel({
+//         userId,
+//         name,
+//         profilePicture: photo,
+//         lastSeen: new Date(),
+//         createdAt: new Date(),
+//         updatedAt: new Date(),
+//     });
+//     await profile.save();
+//     return profile;
+// }
 
-const updateChatProfile = 
-    async (
-        userId: Types.ObjectId,
-        name: string | undefined,
-        photo: string | undefined,
-    ): Promise<ChatProfileDocument> => {
-        const profile = await ChatProfileModel.findOneAndUpdate(
-            { userId: userId },
-            {
-                $set: {
-                    name: name,
-                    profilePicture: photo,
-                    updatedAt: new Date(),
-                },
-            },
-            { new: true },
-        );
-        // if (!profile)
-            // throw generateAPIError("userId is invalid", errorCodes.NotFound);
-        return profile!;
-    }
+// const updateChatProfile = 
+//     async (
+//         userId: Types.ObjectId,
+//         name: string | undefined,
+//         photo: string | undefined,
+//     ): Promise<ChatProfileDocument> => {
+//         const profile = await ChatProfileModel.findOneAndUpdate(
+//             { userId: userId },
+//             {
+//                 $set: {
+//                     name: name,
+//                     profilePicture: photo,
+//                     updatedAt: new Date(),
+//                 },
+//             },
+//             { new: true },
+//         );
+//         // if (!profile)
+//             // throw generateAPIError("userId is invalid", errorCodes.NotFound);
+//         return profile!;
+//     }
 
-const getChatProfile =
-    async (
-        userId: Types.ObjectId,
-    ): Promise<ChatProfileDocument> => {
-        const profile = await ChatProfileModel.findOne({ userId: userId });
-        // if (!profile)
-        //     throw generateAPIError("userId is invalid", errorCodes.NotFound);
-        return profile!;
-    }
+// const getChatProfile =
+//     async (
+//         userId: Types.ObjectId,
+//     ): Promise<ChatProfileDocument> => {
+//         const profile = await ChatProfileModel.findOne({ userId: userId });
+//         // if (!profile)
+//         //     throw generateAPIError("userId is invalid", errorCodes.NotFound);
+//         return profile!;
+//     }
 
 const getSingleChat =
     async (
@@ -86,15 +86,15 @@ const getChats =
                 icon?: string;
                 name?: string;
                 users: {
-                    profileId: { profilePicture: string; name: string };
+                    chatProfileId: { profilePicture: string; name: string };
                 }[];
             } = chat as any;
             chat.users = chat.users.filter(
-                (user:any) => user.chatProfileId?.toString() !== chatProfileId?.toString(),
+                (user:any) => user.chatProfileId?._id.toString() !== chatProfileId?.toString(),
             );
             if (chat.type === "private") {
-                (chatObj.icon = chatObj.users[0].profileId.profilePicture),
-                    (chatObj.name = chatObj.users[0].profileId.name);
+                (chatObj.icon = chatObj.users[0].chatProfileId.profilePicture),
+                    (chatObj.name = chatObj.users[0].chatProfileId.name);
             }
             return chat;
         });
@@ -328,9 +328,9 @@ const deleteMessage =
     }
 
 export default {
-    createChatProfile,
-    updateChatProfile,
-    getChatProfile,
+    // createChatProfile,
+    // updateChatProfile,
+    // getChatProfile,
     getChats,
     getMessages,
     createChat,

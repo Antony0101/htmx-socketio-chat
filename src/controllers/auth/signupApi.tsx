@@ -38,6 +38,7 @@ const signupApiController = expressWrapper(async (req: Request, res: Response) =
                     unread: 0,
                 },
             ],
+            lastMessageAt: new Date(),
         }
     });
     await ChatModel.create(newChats);
@@ -48,7 +49,8 @@ const signupApiController = expressWrapper(async (req: Request, res: Response) =
     }
     const jwt = createJwt(payload,"3d");
     res.cookie("auth", jwt, { httpOnly: true });
-    res.redirect("/chat");
+    res.header("HX-Redirect","/chat");
+    res.status(204).send();
 });
 
 export default signupApiController;

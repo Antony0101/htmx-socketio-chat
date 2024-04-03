@@ -3,7 +3,7 @@ declare global {
     namespace Express {
         interface Request {
             isAuthenticated: boolean;
-            user: chatProfile;
+            user: chatProfile & { _id: any };
         }
     }
 }
